@@ -5,11 +5,15 @@ import Container from "./container/Container";
 import LogoutBtn from "./LogoutBtn";
 import Input from "./Input"
 import Button from "./Button"
+import Select from "./Select"
 
 export {
     Header,
     Footer,
     Container,
     Logo,
-    LogoutBtn
+    LogoutBtn,
+    Input,
+    Button,
+    Select
 }

@@ -1,4 +1,4 @@
-import React, { userId } from 'react'
+import React, { useId } from 'react'
 
 const Input = React.forwardRef(({
     label,
@@ -7,7 +7,7 @@ const Input = React.forwardRef(({
     ...props
 }, ref) => {
 
-    const id = userId()
+    const id = useId()
     return (
         <div className='w-full'>
         {   (!!label && <label
