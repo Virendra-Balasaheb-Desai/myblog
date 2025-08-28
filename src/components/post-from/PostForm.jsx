@@ -2,9 +2,8 @@ import React, { useEffect, useCallback } from 'react'
 import {useNavigate } from 'react-router-dom'
 import appwriteService from "../../appwrite/config"
 import { useForm } from 'react-hook-form'
-import { Input, Button, Select } from "../index"
+import { Input, Button, Select, RTE} from "../index"
 import { useSelector } from 'react-redux'
-
 const PostForm = ({ post }) => {
     const { register, handleSubmit, watch, getValues, setValue, control } = useForm({
         defaultValues: {
@@ -15,8 +14,8 @@ const PostForm = ({ post }) => {
         }
     })
 
-    const navigate = useNavigate()
-    const userData = useSelector(state => state.user.userData)
+    const navigate = useNavigate();
+    const userData = useSelector((state)=>state.auth.userData);
 
     const submit = async (data) => {
         //Edit
@@ -26,7 +25,7 @@ const PostForm = ({ post }) => {
                 appwriteService.deleteFile(post.featuredImage)
             }
             const editPost = await appwriteService.updatePost(post.$id, {
-                ...data,
+                ...data,        
                 featuredImage: file ? file$id : post.featuredImage
             })
             if (editPost) navigate(`/post/${editPost.$id}`)
@@ -35,14 +34,20 @@ const PostForm = ({ post }) => {
         //Create
         else {
             const file = await appwriteService.uploadFile(data.image[0])
-
+            console.log("File : ",file);
+            
             if (file) {
                 data.featuredImage = file.$id
+                console.log("File id : ",file.$id);
+                console.log("User  : ",userData);
+                console.log("User id : ",userData.$id);
                 const createPost = await appwriteService.createPost({
                     ...data,
-                    userId: userData.$id,
+                    userId: userData.$id
 
                 })
+                console.log("Post created.");
+                
                 if (createPost) navigate(`/post/${createPost.$id}`)
             }
         }
@@ -50,7 +55,7 @@ const PostForm = ({ post }) => {
 
     const slugTransform = useCallback((value) => {
         if (value && typeof (value) === "string")
-            return value.trim().toLowerCase().replace(/^[a-zA-Z\d]+/g, '-')
+            return value.trim().toLowerCase().replace(/[^a-zA-Z\d]+/g, '-').replace(/\s/,'-')
         return ''
     }, [])
 
@@ -82,6 +87,7 @@ const PostForm = ({ post }) => {
                     label="Slug :"
                     placeholder="Slug"
                     className="mb-4"
+                    disable='true'
                     {...register("slug", { required: true })}
                     onInput={(e) => {
                         setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
@@ -100,7 +106,7 @@ const PostForm = ({ post }) => {
                 {post && (
                     <div className="w-full mb-4">
                         <img
-                            src={appwriteService.getFilePreview(post.featuredImage)}
+                            src={post.imageUrl}
                             alt={post.title}
                             className="rounded-lg"
                         />

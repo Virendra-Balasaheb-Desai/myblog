@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import appwriteService from "../appwrite/config"
 import { PostCard, Container } from '../components/index'
+import { useDispatch, useSelector } from 'react-redux'
 
 const AllPosts = () => {
     const [posts, setPosts] = useState(null)
     const [loader, setLoader] = useState(true)
+    const authStatus = useSelector(state=>state.auth.status)
     useEffect(() => {
-        appwriteService.getPosts([]).then((posts) => {
-            if (posts) {
-                setPosts(posts.documents)
-            }
-        }).catch((e) => {
-            console.log("All post component Error : ", e);
-        }).finally(() => {
-            setLoader(false)
-        })
+        if(authStatus){
+            appwriteService.getPosts([]).then((posts) => {
+                if (posts) {
+                    setPosts(posts.documents)
+                }
+            }).catch((e) => {
+                console.log("All post component Error : ", e);
+            }).finally(() => {
+                setLoader(false)
+            })
+        }
     }, [])
 
     if (loader) {
-        return <h2 className='w-full py-8'>Loading...</h2>
+        return <h2 className='w-full py-8 text-center'>Loading...</h2>
     }
-    else if (posts.length > 0) {
+    else if (posts?.length > 0) {
         return <div className='w-full py-8'>
             <Container>
                 <div className='flex flex-wrap'>

@@ -11,6 +11,9 @@ const RTE = ({ name, control, label, defaultValue = "" }) => {
                 control={control}
                 render={({ field: { onChange } }) => (
                     <Editor
+                        // apiKey={false}
+                        tinymceScriptSrc="/tinymce/tinymce.min.js"
+                        licenseKey='gpl'
                         initialValue={defaultValue}
                         init={{
                             initialValue:defaultValue,
@@ -26,7 +29,7 @@ const RTE = ({ name, control, label, defaultValue = "" }) => {
                                 'alignright alignjustify | bullist numlist outdent indent | ' +
                                 'removeformat | help',
                             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                            onEditorChange:{onChange}
+                            onEditorChange:{onChange},
                         }}
                     />
                 )}

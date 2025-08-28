@@ -6,7 +6,7 @@ import { PostForm, Container } from '../components/index'
 const EditPost = () => {
     const [post, setPost] = useState(null)
     const [loader, setLoader] = useState(true)
-    const slug = useParams()
+    const {slug} = useParams()
     const navigate = useNavigate()
     useEffect(() => {
         if (slug) {

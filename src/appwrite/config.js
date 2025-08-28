@@ -22,7 +22,6 @@ export class Service{
                 slug,
                 {
                     title,
-                    slug,
                     content,
                     featuredImage,
                     status,
@@ -127,7 +126,7 @@ export class Service{
 
     async getFilePreview(fileId){
         try {
-            return this.bucket.getFilePreview(
+            return this.bucket.getFileView(
                 conf.appwriteBucketId,
                 fileId
             );
