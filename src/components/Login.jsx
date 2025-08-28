@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import { login as storeLogin } from "../store/authSlicer"
 import authService from "../appwrite/auth"
 import { Button, Input, Logo } from "./index"
@@ -9,23 +9,36 @@ import { useForm } from 'react-hook-form'
 const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { register, handleSubmit } = useForm()
-    const [error, setError] = useState("")
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
+    const [customError, setCustomError] = useState("")
 
     const login = async (data) => {
-        setError("")
+        setCustomError("")
 
         try {
-            const session = await authService.login(data);
-            if (session) {
+            const session = await authService.login({ ...data });
+
+            if(session?.name == "AppwriteException"){
+                alert(session.message);
+            }
+            else if (session) {
+                console.log("Session data : ", session);
                 const userData = await authService.getCurrentUser();
+                console.log("User data :", userData);
                 if (userData) {
-                    useDispatch(storeLogin())
+                    console.log('user suc');
+
+                    dispatch(storeLogin(userData))
+                    console.log('user s');
                     navigate("/")
+                    console.log('user end');
                 }
             }
-        } catch (error) {
-            setError(error.message)
+            else {
+                alert("Username or Password is incorrect...", session)
+            }
+        } catch (e) {
+            setCustomError(e.message)
         }
     }
 
@@ -47,7 +60,7 @@ const Login = () => {
                         Sign Up
                     </Link>
                 </p>
-                {error && <div className='text-red-600 mt-8 text-center'>{error}</div>}
+                {customError && <div className='text-red-600 mt-8 text-center'>{customError}</div>}
                 <form onSubmit={handleSubmit(login)} className='mt-8'>
                     <div className='space-y-5'>
                         <Input
@@ -55,22 +68,34 @@ const Login = () => {
                             type="email"
                             placeholder="Enter your email :"
                             {...register('email', {
-                                required: true,
+                                required: {
+                                    value: true,
+                                    message: "This field is required"
+                                },
                                 validate: {
                                     matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
                                         "Email address must be a valid address",
                                 }
                             })}
                         />
+                        {errors.email && <div className='text-yellow-600 text-center'>{errors.email.message}</div>}
                         <Input
-                        label= "Enter password :"
-                        type="password"
-                        placeholder="Enter your password"
-                        {...register('password',{
-                            required
-                        })}
+                            label="Enter password :"
+                            type="password"
+                            placeholder="Enter your password"
+                            {...register('password', {
+                                required: {
+                                    value: true,
+                                    message: "This field is required"
+                                },
+                                minLength: {
+                                    value: 8,
+                                    message: "Password must be minimum 8 Characters"
+                                }
+                            })}
                         />
-                        <Button type='submit' className='w-full'>Login</Button>
+                        {errors.password && <div className='text-yellow-600 text-center'>{errors.password.message}</div>}
+                        <Button type='submit' disable={isSubmitting} className={`w-full ${isSubmitting?"bg-blue-300":''}`}>Login</Button>
                     </div>
                 </form>
             </div>

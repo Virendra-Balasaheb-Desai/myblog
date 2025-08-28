@@ -42,18 +42,18 @@ const Header = () => {
 	return (
 		<header className='py-3 shadow bg-gray-500'>
 			<Container>
-				<nav className='flex'>
+				<nav className='flex items-center'>
 					<div className='mr-4'>
-						<Link>
+						<Link to={"/"}>
 							<Logo width='120px'/>
 						</Link>
 					</div>
-					<ul className='flex ml-auto'>
-					{
+					<ul className='flex flex-wrap justify-between items-center gap-2 ml-auto'>
+					{	
 						navItems.map((item) => (
-							item.active? <li key={item.name}>
-								<button onClick={() => navigate(item.url)}>
-									item.name
+							item.active? <li key={item.name} className='px-2'>
+								<button onClick={() => navigate(item.url)} className='w-f'>
+									{item.name}
 								</button>
 							</li>: null
 						))

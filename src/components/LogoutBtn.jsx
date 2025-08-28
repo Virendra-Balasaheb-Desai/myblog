@@ -8,7 +8,7 @@ const LogoutBtn = () => {
     const dispatch = useDispatch();
     const logoutHandler = () =>{
         authSerive.logout().then(()=>{
-            dispatch(logout)
+            dispatch(logout())
             console.log("Logout");
         }
         ).catch((e)=>{
@@ -16,7 +16,7 @@ const LogoutBtn = () => {
         })
     }
   return (
-    <button className='inline-block px-6 py-4 rounded-full duration-200 hover:bg-blue-100' onClick={(e)=>{logoutHandler()}}>
+    <button className='inline-block px-4 py-2 rounded-full duration-200 hover:bg-blue-100' onClick={(e)=>{logoutHandler()}}>
         Logout
     </button>
   )

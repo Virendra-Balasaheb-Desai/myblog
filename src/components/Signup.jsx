@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input, Button, Logo } from "./index"
 import authService from '../appwrite/auth'
 import { login } from '../store/authSlicer'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useForm } from 'react-hook-form'
 
 
 const Signup = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm()
     const [error, setError] = useState("")
 
     const signup = async (data) => {
@@ -17,11 +18,18 @@ const Signup = () => {
 
         try {
             const userData = await authService.createAccount(data);
-            if (userData) {
+            if(userData?.name == "AppwriteException"){
+                alert(userData.message);
+            }
+            else if (userData) {
                 const userData = await authService.getCurrentUser();
-                useDispatch(login())
+                dispatch(login(userData))
                 navigate("/")
             }
+            else {
+                alert("Failed to Signup.",userData)
+            }
+
         } catch (error) {
             setError(error.message)
         }
@@ -49,32 +57,56 @@ const Signup = () => {
                 <form onSubmit={handleSubmit(signup)}>
                     <div className="space-y-6">
                         <Input
-                        label="Full Name: "
-                        placeholder="Enter your full name"
-                        {...register("name", {
-                            required: true,
-                        })}
+                            label="Full Name: "
+                            placeholder="Enter your full name"
+                            {...register("name", {
+                                required: {
+                                    value: true,
+                                    message: "This field is required"
+                                },
+                                minLength: {
+                                    value: 4,
+                                    message: "Name must be minimum 4 Characters"
+                                }
+                            })}
                         />
+                        {errors.name && <div className='text-yellow-600 text-center'>{errors.name.message}</div>}
+
                         <Input
-                        label="Email: "
-                        placeholder="Enter your email"
-                        type="email"
-                        {...register("email", {
-                            required: true,
-                            validate: {
-                                matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                                "Email address must be a valid address",
-                            }
-                        })}
+                            label="Email: "
+                            placeholder="Enter your email"
+                            type="email"
+                            {...register("email", {
+                                required: {
+                                    value: true,
+                                    message: "This field is required"
+                                },
+                                validate: {
+                                    matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                                        "Email address must be a valid address",
+                                }
+                            })}
                         />
+                        {errors.email && <div className='text-yellow-600 text-center'>{errors.email.message}</div>}
+
                         <Input
-                        label="Password: "
-                        type="password"
-                        placeholder="Enter your password"
-                        {...register("password", {
-                            required: true,})}
+                            label="Password: "
+                            type="password"
+                            placeholder="Enter your password"
+                            {...register("password", {
+                                required: {
+                                    value: true,
+                                    message: "This field is required"
+                                },
+                                minLength: {
+                                    value: 8,
+                                    message: "Password must be minimum 8 Characters"
+                                }
+                            })}
                         />
-                        <Button type="submit" className="w-full">
+                        {errors.password && <div className='text-yellow-600 text-center'>{errors.password.message}</div>}
+
+                        <Button type="submit" disable={isSubmitting} className="w-full">
                             Create Account
                         </Button>
                     </div>

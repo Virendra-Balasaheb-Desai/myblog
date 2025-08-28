@@ -15,56 +15,64 @@ export class AuthService{
 
     async createAccount({email,password,name}){
         try {
-            userAccount = await this.account.create(ID.unique(), email, password,name);
+            const userAccount = await this.account.create(ID.unique(), email, password,name);
+            console.log("user account : ",userAccount);
+            
             if(userAccount){
-                this.login(email,password);
-            }
-            else{
                 return userAccount;
             }
+            
         } catch (error) {
-            console.log("Create Account Error:",error);   
+            console.log("Create Account Error:",error); 
+            return error;  
         }
-        return null;
+        return false;
     }
 
     async login({email,password}){
         try {
-            loggedIN = await this.account.createEmailPasswordSession(email, password);
-            if(loggedIN){
-                console.log("Logged In : ",loggedIN); 
-                return loggedIN;
-            }
-            else{
-                console.log("Failed to Login :",loggedIN);
-                return loggedIN;
-            }
-            
+            const user = await this.account.get();
+            return user;
         } catch (error) {
-            console.log("Login Error:",error);   
+            if(error.code == 401){
+                try {
+                    const loggedIN = await this.account.createEmailPasswordSession(email, password);
+                    if(loggedIN){
+                        console.log("Logged In : ",loggedIN); 
+                        return loggedIN;
+                    }
+                    else{
+                        console.log("Failed to Login :",loggedIN);
+                        return loggedIN;
+                    }
+                    
+                } catch (error) {
+                    console.log("Login Error:",error);   
+                    return error;
+                }
+            }
+
         }
-        return null;
+        return false;
     }
     async getCurrentUser(){
         try {
-            const user = await account.get();
+            const user = await this.account.get();
             console.log("User is authenticated:", user);
             return user;
         } catch (error) {
-            console.log("User is not authenticated:", user);
             console.log("Get User Error:",error);   
             return null;
         }
     }
     async logout(){
         try {
-            const result = await account.deleteSessions();
+            const result = await this.account.deleteSessions();
             console.log("Logout : ", result);
-            return user;
+            return result;
         } catch (error) {
-            console.log("Unable to logout:", user);
             console.log("Logout Error:",error);   
-            return null;
+            return error;
         }
     }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -20,7 +20,12 @@ const Protected = ({children , authentication=true}) => {
         setLoader(false)
     }, [authentication,navigate,authStatus])
     
-    return loader?<h2>Loading...</h2>:{children}
+    if(loader){
+        return <h2>Loading....</h2>
+    }
+    return <div>
+        {children}
+    </div>
 }
 
 export default Protected
