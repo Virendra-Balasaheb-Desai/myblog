@@ -16,7 +16,7 @@ const LogoutBtn = () => {
         })
     }
   return (
-    <button className='inline-block px-4 py-2 rounded-full duration-200 hover:bg-blue-100' onClick={(e)=>{logoutHandler()}}>
+    <button className='inline-block px-4 py-2 rounded-full duration-200 hover:bg-blue-100 cursor-pointer' onClick={(e)=>{logoutHandler()}}>
         Logout
     </button>
   )

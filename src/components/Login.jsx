@@ -44,10 +44,10 @@ const Login = () => {
 
     return (
         <div className='flex items-center justify-center w-full'>
-            <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
+            <div className={`mx-auto w-full max-w-lg bg-gray-300 rounded-xl p-10 border border-black/10`}>
                 <div className="mb-2 flex justify-center">
-                    <span className="inline-block w-full max-w-[100px]">
-                        <Logo width='100%' />
+                    <span className="inline-block w-full max-w-[150px]">
+                        <Logo  />
                     </span>
                 </div>
                 <h2 className="text-center text-2xl font-bold leading-tight">Sign in to your account</h2>
@@ -95,7 +95,7 @@ const Login = () => {
                             })}
                         />
                         {errors.password && <div className='text-yellow-600 text-center'>{errors.password.message}</div>}
-                        <Button type='submit' disable={isSubmitting} className={`w-full ${isSubmitting?"bg-blue-300":''}`}>Login</Button>
+                        <Button type='submit' disable={isSubmitting} className={`w-full cursor-pointer ${isSubmitting?"bg-blue-300":''}`}>Login</Button>
                     </div>
                 </form>
             </div>

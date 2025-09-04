@@ -1,0 +1,18 @@
+<svg width="170" height="70" viewBox="0 0 170 70" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title8">
+  <title>myblog logo with pencil tip no gap</title>
+
+  <!-- Text -->
+  <text x="10" y="45" font-family="Arial, sans-serif" font-size="36" fill="#2C3E50" font-weight="700" letter-spacing="1.5">
+    myblog
+  </text>
+
+  <!-- Pencil underline -->
+  <g transform="translate(10,55)">
+    <!-- Pencil shaft -->
+    <rect x="0" y="0" width="140" height="6" fill="#E67E22" rx="1" ry="1" />
+    <!-- Wooden part of tip -->
+    <polygon points="140,0 150,3 140,6" fill="#D35400" />
+    <!-- Small, sharp dark blue angled edge at tip -->
+    <polygon points="150,3 148,2 148,4" fill="#2C3E50" />
+  </g>
+</svg>

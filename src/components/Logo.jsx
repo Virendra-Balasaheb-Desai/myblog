@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Logo = ({width="100px"}) => {
+const Logo = ({width="150px"}) => {
   return (
     <div>
-      Logo
+      <img src="logo.svg" alt='LOGO' width={width}/>
     </div>
   )
 }

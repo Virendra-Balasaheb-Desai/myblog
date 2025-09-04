@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import appwriteService from "../appwrite/config"
-import { PostForm, Container } from '../components/index'
+import { PostForm, Container, Loader } from '../components/index'
 
 const EditPost = () => {
     const [post, setPost] = useState(null)
     const [loader, setLoader] = useState(true)
-    const {slug} = useParams()
+    const { slug } = useParams()
     const navigate = useNavigate()
     useEffect(() => {
         if (slug) {
             appwriteService.getPost(slug).then((post) => {
                 if (post) {
+                    post.slug = slug;
                     setPost(post)
                 }
             }).catch((e) => {
@@ -26,14 +27,14 @@ const EditPost = () => {
     }, [slug, navigate])
 
     if (loader) {
-        return <h2 className='w-full py-8'>Loading...</h2>
+        return <Loader />
     }
     else if (post) {
-        return <div className='w-full py-8'>
+        return <>
             <Container>
-                <PostForm post={post}/>
+                <PostForm post={post} />
             </Container>
-        </div>
+        </>
     }
     else {
         return <h2 className='w-full py-8'>No Post</h2>

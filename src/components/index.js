@@ -12,6 +12,7 @@ import Signup from './Signup'
 import Login from './Login'
 import PostForm from "./post-from/PostForm"
 import PostCard from "./PostCard"
+import Loader from "./Loader"
 
 export {
     Header,
@@ -27,5 +28,6 @@ export {
     Signup,
     Login,
     PostForm,
-    PostCard
+    PostCard,
+    Loader
 }

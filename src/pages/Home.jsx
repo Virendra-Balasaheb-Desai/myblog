@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import appwriteService from "../appwrite/config"
-import { PostCard, Container } from '../components/index'
-import {  useSelector } from 'react-redux'
+import { PostCard, Container, Loader } from '../components/index'
+import { useSelector } from 'react-redux'
 
 const Home = () => {
     const [posts, setPosts] = useState(null)
     const [loader, setLoader] = useState(true)
     const authStatus = useSelector(state => state.auth.status)
     useEffect(() => {
-        if(authStatus){
+        if (authStatus) {
             appwriteService.getPosts().then((posts) => {
                 if (posts) {
                     setPosts(posts.documents)
@@ -23,7 +23,7 @@ const Home = () => {
     }, [])
 
     if (loader) {
-        return <h2 className='w-full py-8 text-center'>Loading...</h2>
+        return <Loader />
     }
     else if (posts?.length > 0) {
         return <div className='w-full py-8'>
@@ -40,7 +40,7 @@ const Home = () => {
         </div>
     }
     else {
-        return <div className='w-full py-8 mt-4 text-center min-h-screen'>
+        return <div className='w-full py-8 mt-4 text-center'>
             <Container >
                 <h2 className='w-full py-8 text-center'>No Posts available</h2>
             </Container>

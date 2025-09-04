@@ -1,12 +1,58 @@
-# React + Vite
+# myblog
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Follow the steps to **setup** project.
 
-Currently, two official plugins are available:
+## Table of Contents
+- [Overview](#overview)
+- [Accessing the Repo](#accessing-the-repo)
+- [Installation](#installation)
+- [Additional Features](#additional-features)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## Expanding the ESLint configuration
+This project serves as blogging website where blogger can write there blog using Real Time Editor (RTE) powered by tinymce.\
+It uses Appwrite as Backend as a Service (BaaS).\
+It is a ultimate React.js project which can be easily maintainable, scalable and migratable in future.\
+This project is part of [chai-aur-react](https://www.youtube.com/playlist?list=PLu71SKxNbfoDqgPchmvIsL4hTnJIrtige) playlist by [hitesh choudhary](https://hitesh.ai) with some additional features of mine😅.
+## Accessing the Repo
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Clone the repository :**
+
+```bash
+git clone https://github.com/Virendra-Balasaheb-Desai/myblog.git
+cd myblog
+```
+
+## Installation
+
+To set up the project locally, follow these steps:
+
+**Install** project dependencies:
+
+```bash
+npm install
+```
+
+**Before** running server, run **postinstall** script:
+
+```bash
+node postinstall.js
+```
+
+And satisfy the **environment variable** which are required from Appwrite:
+- make .env file
+- use .env.sample for reference
+
+Now your *ready* to run project -
+
+Start the project **server**:
+```bash
+npm run dev
+```
+## Additional Features :
+
+- Use self-hosted RTE.
+- Session management.
+- Error Handling.
+- Some error fixing.
+
