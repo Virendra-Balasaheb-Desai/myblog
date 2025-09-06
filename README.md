@@ -11,6 +11,7 @@ Follow the steps to **setup** project.
 ## Overview
 
 This project serves as blogging website where blogger can write there blog using Real Time Editor (RTE) powered by tinymce.\
+This project focus on React.js not on backend.\
 It uses Appwrite as Backend as a Service (BaaS).\
 It is a ultimate React.js project which can be easily maintainable, scalable and migratable in future.\
 This project is part of [chai-aur-react](https://www.youtube.com/playlist?list=PLu71SKxNbfoDqgPchmvIsL4hTnJIrtige) playlist by [hitesh choudhary](https://hitesh.ai) with some additional features of mine😅.
@@ -33,12 +34,6 @@ To set up the project locally, follow these steps:
 npm install
 ```
 
-**Before** running server, run **postinstall** script:
-
-```bash
-node postinstall.js
-```
-
 And satisfy the **environment variable** which are required from Appwrite:
 - make .env file
 - use .env.sample for reference
@@ -49,7 +44,7 @@ Start the project **server**:
 ```bash
 npm run dev
 ```
-## Additional Features :
+## Additional Features
 
 - Use self-hosted RTE.
 - Session management.
